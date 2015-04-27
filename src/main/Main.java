@@ -1,19 +1,13 @@
 package main;
 
-import org.jgap.Configuration;
-import org.jgap.InvalidConfigurationException;
-import org.jgap.impl.DefaultConfiguration;
+import java.io.FileNotFoundException;
 
-import algorithm.CancerFitnessFunction;
+import data.Data;
 
 public class Main {
 
-	public static void main(String[] args) throws InvalidConfigurationException {
-		// TODO Auto-generated method stub
-
-		Configuration config = new DefaultConfiguration();
-		config.setFitnessFunction(new CancerFitnessFunction());
-		
+	public static void main(String[] args) throws FileNotFoundException {
+		Data data = new Data(null);
 	}
 
 }

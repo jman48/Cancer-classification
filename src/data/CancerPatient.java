@@ -8,25 +8,34 @@ public class CancerPatient {
 	private int id;
 	private int ct; // Clump thickness
 	private int usz; // Uniformity of Cell Size
-	private int ushp;	//Uniformity of Cell Shape
-	private int ma;	//Marginal Adhesion
-	private int bn;	//Bare Nuclei
-	private int bc;	//Bland Chromatin
-	private int nn;	//Normal Nucleoli
-	private int m;	//Mitoses
-	
+	private int ushp; // Uniformity of Cell Shape
+	private int ma; // Marginal Adhesion
+	private int bn; // Bare Nuclei
+	private int bc; // Bland Chromatin
+	private int nn; // Normal Nucleoli
+	private int m; // Mitoses
+
 	/**
 	 * Construct a new cancer patient
 	 * 
-	 * @param id The id of the cancer patient
-	 * @param ct Clump thickness
-	 * @param usz Uniformity of Cell Size
-	 * @param ushp Uniformity of Cell Shape
-	 * @param ma Marginal Adhesion
-	 * @param bn Bare Nuclei
-	 * @param bc Bland Chromatin
-	 * @param nn Normal Nucleoli
-	 * @param m Mitoses
+	 * @param id
+	 *            The id of the cancer patient
+	 * @param ct
+	 *            Clump thickness
+	 * @param usz
+	 *            Uniformity of Cell Size
+	 * @param ushp
+	 *            Uniformity of Cell Shape
+	 * @param ma
+	 *            Marginal Adhesion
+	 * @param bn
+	 *            Bare Nuclei
+	 * @param bc
+	 *            Bland Chromatin
+	 * @param nn
+	 *            Normal Nucleoli
+	 * @param m
+	 *            Mitoses
 	 */
 	public CancerPatient(int id, int ct, int usz, int ushp, int ma, int bn,
 			int bc, int nn, int m) {
@@ -40,6 +49,18 @@ public class CancerPatient {
 		this.nn = nn;
 		this.m = m;
 	}
+	
+	private CancerPatient(PatientBuilder builder) {
+		this.id = builder.id;
+		this.ct = builder.ct;
+		this.usz = builder.usz;
+		this.ushp = builder.ushp;
+		this.ma = builder.ma;
+		this.bn = builder.bn;
+		this.bc = builder.bc;
+		this.nn = builder.nn;
+		this.m = builder.m;
+	}
 
 	public int getId() {
 		return id;
@@ -47,6 +68,7 @@ public class CancerPatient {
 
 	/**
 	 * Get Clump thickness
+	 * 
 	 * @return
 	 */
 	public int getCt() {
@@ -55,6 +77,7 @@ public class CancerPatient {
 
 	/**
 	 * Get Uniformity of Cell Size
+	 * 
 	 * @return
 	 */
 	public int getUsz() {
@@ -63,6 +86,7 @@ public class CancerPatient {
 
 	/**
 	 * Get Uniformity of Cell Shape
+	 * 
 	 * @return
 	 */
 	public int getUshp() {
@@ -71,6 +95,7 @@ public class CancerPatient {
 
 	/**
 	 * Get Marginal Adhesion
+	 * 
 	 * @return
 	 */
 	public int getMa() {
@@ -79,6 +104,7 @@ public class CancerPatient {
 
 	/**
 	 * Get Bare Nuclei
+	 * 
 	 * @return
 	 */
 	public int getBn() {
@@ -87,6 +113,7 @@ public class CancerPatient {
 
 	/**
 	 * Get Bland Chromatin
+	 * 
 	 * @return
 	 */
 	public int getBc() {
@@ -95,6 +122,7 @@ public class CancerPatient {
 
 	/**
 	 * Get Normal Nucleoli
+	 * 
 	 * @return
 	 */
 	public int getNn() {
@@ -103,11 +131,76 @@ public class CancerPatient {
 
 	/**
 	 * Get Mitoses
+	 * 
 	 * @return
 	 */
 	public int getM() {
 		return m;
 	}
-
 	
+	@Override
+	public String toString() {
+		return "Patient - id: " + id + " ct: " + ct + " usz: " + usz + " ushp: " + ushp + " ma: " + ma + " bn: " + bn + " bc: " + bc + " nn: " + nn + " m: " + m; 		
+	}
+
+	public static class PatientBuilder {
+		private int id;
+		private int ct; // Clump thickness
+		private int usz; // Uniformity of Cell Size
+		private int ushp; // Uniformity of Cell Shape
+		private int ma; // Marginal Adhesion
+		private int bn; // Bare Nuclei
+		private int bc; // Bland Chromatin
+		private int nn; // Normal Nucleoli
+		private int m; // Mitoses
+
+		public PatientBuilder(int id) {
+			this.id = id;
+		}
+
+		public PatientBuilder ct(int ct) {
+			this.ct = ct;
+			return this;
+		}
+
+		public PatientBuilder usz(int usz) {
+			this.usz = usz;
+			return this;
+		}
+
+		public PatientBuilder ushp(int ushp) {
+			this.ushp = ushp;
+			return this;
+		}
+
+		public PatientBuilder ma(int ma) {
+			this.ma = ma;
+			return this;
+		}
+
+		public PatientBuilder bn(int bn) {
+			this.bn = bn;
+			return this;
+		}
+
+		public PatientBuilder bc(int bc) {
+			this.bc = bc;
+			return this;
+		}
+
+		public PatientBuilder nn(int nn) {
+			this.nn = nn;
+			return this;
+		}
+
+		public PatientBuilder m(int m) {
+			this.m = m;
+			return this;
+		}
+		
+		public CancerPatient build() {
+			return new CancerPatient(this);
+		}
+	}
+
 }
