@@ -138,8 +138,8 @@ public class CancerPatient {
     @Override
     public String toString() {
 	return "Patient - id: " + id + " ct: " + ct + " usz: " + usz
-		+ " ushp: " + ushp + " ma: " + ma + " bn: " + bn + " bc: " + bc
-		+ " nn: " + nn + " m: " + m;
+		+ " ushp: " + ushp + " ma: " + ma + " sesz: " + sesz + " bn: " + bn + " bc: " + bc
+		+ " nn: " + nn + " m: " + m + " cancer class: " + cancerClass;
     }
 
     public static class PatientBuilder {

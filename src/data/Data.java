@@ -25,8 +25,7 @@ public class Data {
      * Construct a new Data object. This data object will automatically read all
      * the data in from the file specified or will use the default file location
      * 
-     * @param fileName
-     *            - The name of the file holding all the data
+     * @param fileName - The name of the file holding all the data
      * @throws FileNotFoundException
      */
     public Data(String fileName) throws FileNotFoundException {
@@ -36,10 +35,14 @@ public class Data {
 	    readFile(fileName);
 	}
     }
+    
+    public List<CancerPatient> getPatients() {
+	return new ArrayList<CancerPatient>(patients);
+    }
 
     private void readFile(String fileName) throws FileNotFoundException {
 	Scanner fileInput = new Scanner(new File(fileName));
-	
+
 	while (fileInput.hasNextLine()) {
 	    Scanner line = new Scanner(fileInput.nextLine());
 	    line.useDelimiter(",");
@@ -48,15 +51,16 @@ public class Data {
 	    PatientBuilder patientBuilder = new PatientBuilder(line.nextInt())
 		    .ct(line.nextInt()).usz(line.nextInt())
 		    .ushp(line.nextInt()).ma(line.nextInt())
-		    .sesz(line.nextInt())
-		    .bn(line.nextInt()).bc(line.nextInt())
-		    .nn(line.nextInt()).m(line.nextInt()).cancerClass(line.nextInt());
+		    .sesz(line.nextInt()).bn(line.nextInt()).bc(line.nextInt())
+		    .nn(line.nextInt()).m(line.nextInt())
+		    .cancerClass(line.nextInt());
 
 	    line.close();
 
 	    patients.add(patientBuilder.build());
 	}
 	fileInput.close();
-	System.out.println("Read " + patients.size() + " cancer patients information");
+	System.out.println("Read " + patients.size()
+		+ " cancer patients information");
     }
 }
