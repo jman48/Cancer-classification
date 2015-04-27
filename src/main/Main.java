@@ -11,30 +11,64 @@ import org.jgap.gp.impl.GPGenotype;
 import algorithm.CancerClassification;
 import data.Data;
 
+/**
+ * A program using genetic programming to classify breast cancer data.
+ * 
+ * @author John Armstrong
+ *
+ */
 public class Main {
+    private static final String defaultTrainingFile = "data/training.txt";
+    private static final String defaultTestFile = "data/test.txt";
 
-	public static void main(String[] args) throws FileNotFoundException, InvalidConfigurationException {
-		Data data = new Data("data/training.txt");
-		
-		GPConfiguration config = new GPConfiguration();
-		config.setGPFitnessEvaluator(new DefaultGPFitnessEvaluator());
-		config.setMaxInitDepth(6);
-		config.setPopulationSize(200);
-		config.setMaxCrossoverDepth(6); //diversity
-		config.setFitnessFunction(new CancerClassification.CancerFitnessFunction());
-		config.setStrictProgramCreation(true);
-		//config.setMutationProb(10.0f);
-		
-		GPProblem problem = new CancerClassification(data.getPatients(), config);
-		GPGenotype geneticProgram = problem.create();
-		
-		geneticProgram.setVerboseOutput(true);
-		geneticProgram.evolve(400);
-		geneticProgram.outputSolution(geneticProgram.getAllTimeBest());
-		
-		data = new Data("data/test.txt");
-		CancerClassification.patients = data.getPatients();
-		System.out.println(new CancerClassification.CancerFitnessFunction().computeFitness(geneticProgram.getAllTimeBest()));
-		
+    public static void main(String[] args) throws FileNotFoundException, InvalidConfigurationException {
+	Data trainingData;
+	Data testData;
+
+	// Only training data passed in. Do not use defaults as training data may be different from test data
+	if (args.length == 1) {
+	    System.err.println("Need to pass in both test and training file names");
+	    return;
+	} else if (args.length > 1) { // Both training and test file names passed in
+	    System.out.println("Training data being read from: " + args[0]);
+	    trainingData = new Data(args[0]);
+
+	    System.out.println("Test data being read from: " + args[1]);
+	    testData = new Data(args[1]);
+	} else { // Default case. Use predefined file names
+	    System.out.println("No data file names passed in. Using default file names.");
+	    System.out.println("Training data being read from: " + defaultTrainingFile);
+	    trainingData = new Data("data/training.txt");
+
+	    System.out.println("Test data being read from: " + defaultTestFile);
+	    testData = new Data("data/test.txt");
 	}
+
+	// Set up Genetic Program configuration
+	GPConfiguration config = new GPConfiguration();
+	config.setGPFitnessEvaluator(new DefaultGPFitnessEvaluator());
+	config.setMaxInitDepth(6);
+	config.setPopulationSize(300);
+	config.setMaxCrossoverDepth(6);
+	config.setFitnessFunction(new CancerClassification.CancerFitnessFunction());
+	config.setStrictProgramCreation(true);
+//	config.setMutationProb(1f);
+//	config.setCrossoverProb(1f);
+
+	// Create our genetic program
+	GPProblem problem = new CancerClassification(trainingData.getPatients(), config);
+	GPGenotype geneticProgram = problem.create();
+	geneticProgram.setVerboseOutput(true);
+
+	// Run genetic program
+	geneticProgram.evolve(200);
+	geneticProgram.outputSolution(geneticProgram.getAllTimeBest());
+
+	// Check the best program against test data
+	CancerClassification.patients = testData.getPatients();
+	double percentCorrect = new CancerClassification.CancerFitnessFunction().computeFitness(geneticProgram
+		.getAllTimeBest());
+	System.out.printf("\nCorrect Classification Percent: %.2f%%", percentCorrect);
+
+    }
 }

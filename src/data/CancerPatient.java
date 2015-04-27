@@ -142,6 +142,11 @@ public class CancerPatient {
 		+ " nn: " + nn + " m: " + m + " cancer class: " + cancerClass;
     }
 
+    /**
+     * A builder class to help create a cancer patient instance
+     * 
+     * @author John Armstrong
+     */
     public static class PatientBuilder {
 	private int id;
 	private int ct; // Clump thickness

@@ -35,11 +35,17 @@ public class Data {
 	    readFile(fileName);
 	}
     }
-    
+
     public List<CancerPatient> getPatients() {
 	return new ArrayList<CancerPatient>(patients);
     }
 
+    /*
+     * Read all of our data in from the file provided
+     * 
+     * @param fileName The name of the file holding the data 
+     * @throws FileNotFoundException
+     */
     private void readFile(String fileName) throws FileNotFoundException {
 	Scanner fileInput = new Scanner(new File(fileName));
 
@@ -47,20 +53,16 @@ public class Data {
 	    Scanner line = new Scanner(fileInput.nextLine());
 	    line.useDelimiter(",");
 
-	    // Create a new patient builder with an id from the data file
-	    PatientBuilder patientBuilder = new PatientBuilder(line.nextInt())
-		    .ct(line.nextInt()).usz(line.nextInt())
-		    .ushp(line.nextInt()).ma(line.nextInt())
-		    .sesz(line.nextInt()).bn(line.nextInt()).bc(line.nextInt())
-		    .nn(line.nextInt()).m(line.nextInt())
-		    .cancerClass(line.nextInt());
+	    // Create a new patient builder with an id from the data file and then read the reset of the data
+	    PatientBuilder patientBuilder = new PatientBuilder(line.nextInt()).ct(line.nextInt()).usz(line.nextInt())
+		    .ushp(line.nextInt()).ma(line.nextInt()).sesz(line.nextInt()).bn(line.nextInt()).bc(line.nextInt())
+		    .nn(line.nextInt()).m(line.nextInt()).cancerClass(line.nextInt());
 
 	    line.close();
 
 	    patients.add(patientBuilder.build());
 	}
 	fileInput.close();
-	System.out.println("Read " + patients.size()
-		+ " cancer patients information");
+	System.out.println("Read " + patients.size() + " cancer patients information");
     }
 }

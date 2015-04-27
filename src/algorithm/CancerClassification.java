@@ -16,6 +16,12 @@ import org.jgap.gp.terminal.Variable;
 
 import data.CancerPatient;
 
+/**
+ * This is the class that sets up a genetic program.
+ * 
+ * @author John Armstrong
+ *
+ */
 public class CancerClassification extends GPProblem {
 
     public static Variable ct;
@@ -29,8 +35,8 @@ public class CancerClassification extends GPProblem {
     public static Variable m;
     public static List<CancerPatient> patients;
 
-    public CancerClassification(List<CancerPatient> patients,
-	    GPConfiguration config) throws InvalidConfigurationException {
+    public CancerClassification(List<CancerPatient> patients, GPConfiguration config)
+	    throws InvalidConfigurationException {
 	super(config);
 	CancerClassification.patients = new ArrayList<CancerPatient>(patients);
     }
@@ -56,57 +62,55 @@ public class CancerClassification extends GPProblem {
 		{},
 		// ADF-relevant:
 		// Arguments of ADF1: all 3 are float
-		{ CommandGene.IntegerClass, CommandGene.IntegerClass,
-			CommandGene.IntegerClass } };
+		{ CommandGene.IntegerClass, CommandGene.IntegerClass, CommandGene.IntegerClass } };
 
 	CommandGene[][] nodeSets = {
 		{
-			// We use a variable that can be set in the fitness
+			// We use variables that can be set in the fitness
 			// function.
 			// ----------------------------------------------------------
-			ct = Variable.create(conf, "ct",
-				CommandGene.IntegerClass),
-			usz = Variable.create(conf, "usz",
-				CommandGene.IntegerClass),
-			ushp = Variable.create(conf, "ushp",
-				CommandGene.IntegerClass),
-			ma = Variable.create(conf, "ma",
-				CommandGene.IntegerClass),
-			sesz = Variable.create(conf, "sesz",
-				CommandGene.IntegerClass),
-			bn = Variable.create(conf, "bn",
-				CommandGene.IntegerClass),
-			bc = Variable.create(conf, "bc",
-				CommandGene.IntegerClass),
-			nn = Variable.create(conf, "nn",
-				CommandGene.IntegerClass),
-			m = Variable
-				.create(conf, "m", CommandGene.IntegerClass),
-			new Multiply(conf, CommandGene.IntegerClass),
-			new Add(conf, CommandGene.IntegerClass),
-			new Divide(conf, CommandGene.IntegerClass),
-			// new Exp(conf, CommandGene.FloatClass),
-			new Subtract(conf, CommandGene.IntegerClass),
-			// new Pow(conf, CommandGene.IntegerClass),
-			new Terminal(conf, CommandGene.IntegerClass, -10, 10,
-				true), },
+			ct = Variable.create(conf, "ct", CommandGene.IntegerClass),
+			usz = Variable.create(conf, "usz", CommandGene.IntegerClass),
+			ushp = Variable.create(conf, "ushp", CommandGene.IntegerClass),
+			ma = Variable.create(conf, "ma", CommandGene.IntegerClass),
+			sesz = Variable.create(conf, "sesz", CommandGene.IntegerClass),
+			bn = Variable.create(conf, "bn", CommandGene.IntegerClass),
+			bc = Variable.create(conf, "bc", CommandGene.IntegerClass),
+			nn = Variable.create(conf, "nn", CommandGene.IntegerClass),
+			m = Variable.create(conf, "m", CommandGene.IntegerClass),
+			new Multiply(conf, CommandGene.IntegerClass), new Add(conf, CommandGene.IntegerClass),
+			new Divide(conf, CommandGene.IntegerClass), new Subtract(conf, CommandGene.IntegerClass),
+			new Terminal(conf, CommandGene.IntegerClass, -10, 10, true), },
 		// ADF-relevant:
 		// and now the definition of ADF(1)
 		{ new Add3(conf, CommandGene.IntegerClass), } };
 
-	return GPGenotype.randomInitialGenotype(conf, types, argTypes,
-		nodeSets, 20, true);
+	return GPGenotype.randomInitialGenotype(conf, types, argTypes, nodeSets, 20, true);
     }
 
+    /**
+     * This class contains the fitness function that determines how "good" a
+     * program is
+     * 
+     * @author John Armstrong
+     *
+     */
     public static class CancerFitnessFunction extends GPFitnessFunction {
 
 	@Override
 	protected double evaluate(final IGPProgram program) {
 	    return computeFitness(program);
 	}
-	
+
+	/**
+	 * This function checks a program by running it over all the patients
+	 * and seeing how many it gets correct.
+	 * 
+	 * @param program The program that the genetic algorithm has evolved
+	 * @return A percent of how many the program correctly classified
+	 */
 	public double computeFitness(final IGPProgram program) {
-	    double correct = 0;
+	    double correct = 0; // Double so we can calculate a percent
 
 	    for (int i = 0; i < patients.size(); i++) {
 		ct.set(patients.get(i).getCt());
@@ -123,7 +127,6 @@ public class CancerClassification extends GPProblem {
 		    int result = program.execute_int(0, new Object[0]);
 		    int cancerClass = 0;
 
-		    // Only change cancer class if it is wrong
 		    if (result < 0) {
 			cancerClass = CancerPatient.MALIGNANT;
 		    } else {
