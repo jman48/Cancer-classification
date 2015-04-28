@@ -89,8 +89,7 @@ public class CancerClassification extends GPProblem {
     }
 
     /**
-     * This class contains the fitness function that determines how "good" a
-     * program is
+     * This class contains the fitness function that determines how "good" a program is
      * 
      * @author John Armstrong
      *
@@ -103,8 +102,7 @@ public class CancerClassification extends GPProblem {
 	}
 
 	/**
-	 * This function checks a program by running it over all the patients
-	 * and seeing how many it gets correct.
+	 * This function checks a program by running it over all the patients and seeing how many it gets correct.
 	 * 
 	 * @param program The program that the genetic algorithm has evolved
 	 * @return A percent of how many the program correctly classified

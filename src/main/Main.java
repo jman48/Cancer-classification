@@ -23,7 +23,7 @@ public class Main {
     private static final String defaultTrainingFile = "data/training.txt";
     private static final String defaultTestFile = "data/test.txt";
 
-    public static final int maxGenerations = 500; // Maximum number of generations to evolve
+    public static final int maxGenerations = 300; // Maximum number of generations to evolve
     public static final int stepSize = 1; // The number of times to evolve in one step (iteration)
 
     public static void main(String[] args) throws FileNotFoundException, InvalidConfigurationException {
@@ -59,8 +59,8 @@ public class Main {
 	config.setMaxCrossoverDepth(6);
 	config.setFitnessFunction(new CancerClassification.CancerFitnessFunction());
 	config.setStrictProgramCreation(true);
-	// config.setMutationProb(1f);
-	// config.setCrossoverProb(1f);
+	//config.setMutationProb(1f);
+	config.setCrossoverProb(90f);
 
 	// Create our genetic program
 	GPProblem problem = new CancerClassification(trainingData.getPatients(), config);
